@@ -1,9 +1,10 @@
-package block
+package main
 
 import (
 	"bytes"
 	"crypto/sha256"
 	"strconv"
+	"time"
 )
 
 type Block struct {
@@ -25,10 +26,21 @@ func (b *Block) SetHash() {
 	//set the b.Hash value to the hash value, but convert it from an array to a slice (by doing [:]).. purpose of this is for consistency
 	//plus future utilization of the slice
 
-	//remember, since we passed by reference, changing b.Hash changes the value outside of the scope of the func
+	//REMEMBER, since we passed by reference, changing b.Hash changes the value outside of the scope of the func
 }
 
-// function to create a new block is passed in data
+// function to create a new block is passed in data, returns *Block (block pointer)
 func NewBlock(data string, prevBlockHash []byte) *Block {
+	// Create a new block instance and initialize its fields.
+	block := &Block{
+		Timestamp:     time.Now().Unix(), // Current Unix timestamp
+		Data:          []byte(data),      // Data associated with the block
+		PrevBlockHash: prevBlockHash,     // Hash of the previous block
+		Hash:          []byte{},          // Empty placeholder for the block's hash
+	}
 
+	//set hash
+	block.SetHash()
+
+	return block
 }
